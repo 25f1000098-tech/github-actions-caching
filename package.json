@@ -1,0 +1,8 @@
+{
+  "name": "caching-example",
+  "version": "1.0.0",
+  "description": "A simple project to demonstrate GitHub Actions caching.",
+  "dependencies": {
+    "requests": "2.32.3"
+  }
+}
