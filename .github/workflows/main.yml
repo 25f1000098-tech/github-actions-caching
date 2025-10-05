@@ -1,0 +1,29 @@
+name: Caching Demo
+
+on:
+  workflow_dispatch: # Allows manual runs
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # This is the main caching step
+      - name: Cache npm dependencies
+        id: cache-npm-deps # An ID to reference this step's output
+        uses: actions/cache@v4
+        with:
+          path: ~/.npm # The directory to cache
+          key: cache-ca41caa # The exact cache key required
+
+      # This step ONLY runs if the cache was not found
+      - name: Install dependencies if cache missed
+        if: steps.cache-npm-deps.outputs.cache-hit != 'true'
+        run: npm install
+
+      # This is the required step with the specific name
+      - name: prime-cache-ca41caa
+        run: echo "The cache-hit property was ${{ steps.cache-npm-deps.outputs.cache-hit }}"
